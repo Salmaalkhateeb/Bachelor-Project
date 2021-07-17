@@ -46,7 +46,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 //Establishing an HTTPS request
 
-//              .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
                 .authorizeRequests()
                 .antMatchers("/PandG").hasRole(ADMINS.name())
                 .anyRequest()
