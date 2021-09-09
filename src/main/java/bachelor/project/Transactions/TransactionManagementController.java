@@ -2,6 +2,7 @@ package bachelor.project.Transactions;
 
 
 import bachelor.project.Products.Product;
+//import bachelor.project.Security.Firewall.StrictHttpFirewall;
 import bachelor.project.Transactions.Transaction;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -18,9 +19,10 @@ import java.util.Random;
 public class TransactionManagementController {
 
     private static final List<Transaction> transactions = Arrays.asList(
-            new Transaction("soudi",3, LocalDate.of(2021,2,20), new Product("Milk"))
+            new Transaction("soudi","3", LocalDate.of(2021,2,20), new Product("Milk"))
     );
     private PasswordEncoder passwordEncoder;
+//    private StrictHttpFirewall strictHttpFirewall;
 
     @GetMapping
     @PreAuthorize("hasAuthority('transaction:read')")
@@ -34,6 +36,11 @@ public class TransactionManagementController {
 //        retailers.add(new Retailer(retailer.getUsername(),retailer.getPassword(),retailer.getPasswordTrials(),retailer.getPassExpired(),retailer.getEmail()));
 //        TODO: check add function
         return "Transaction is added";
+
+    }
+    @DeleteMapping
+    public String deleteTransaction(){
+        return "The request was rejected because the HTTP method Delete was not included within the whitelist " ;
 
     }
 

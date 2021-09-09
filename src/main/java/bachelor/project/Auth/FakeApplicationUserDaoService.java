@@ -51,6 +51,7 @@ public class FakeApplicationUserDaoService implements ApplicationUserDao{
                 true)
         );
 
+
         return applicationUsers;
     }
 }

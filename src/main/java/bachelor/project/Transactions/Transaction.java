@@ -17,7 +17,7 @@ public class Transaction {
     @Field
     private String retailerId;
     @Field
-    private int quantity;
+    private String quantity;
     @Field
     private LocalDate transactionDate;
     @Field
@@ -49,11 +49,11 @@ public class Transaction {
         this.retailerId = retailerId;
     }
 
-    public int getQuantity() {
+    public String getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(String quantity) {
         this.quantity = quantity;
     }
 
@@ -75,7 +75,7 @@ public class Transaction {
 
     public Transaction(
             String retailerId,
-            int quantity,
+            String quantity,
             LocalDate transactionDate,
             Product productname) {
 

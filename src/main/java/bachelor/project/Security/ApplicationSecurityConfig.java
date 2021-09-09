@@ -2,6 +2,8 @@ package bachelor.project.Security;
 
 
 import bachelor.project.Auth.ApplicationUserService;
+//import bachelor.project.Security.Firewall.StrictHttpFirewall;
+import bachelor.project.Filters.CsrfLoggerFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
@@ -10,7 +12,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfFilter;
 
 import static bachelor.project.Security.SupplyChainUserRoles.*;
 
@@ -21,9 +29,11 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final ApplicationUserService applicationUserService;
 
+
     public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserService applicationUserService) {
         this.passwordEncoder = passwordEncoder;
         this.applicationUserService = applicationUserService;
+
     }
 
 
@@ -34,7 +44,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 //        http.headers()
 //                .contentSecurityPolicy("default-src 'self'");
 
-        //Allows HTTPS requests only
+//        Allows HTTPS requests only
 //       http
 //               .headers().httpStrictTransportSecurity().includeSubDomains(true).maxAgeInSeconds(31536000);
 
@@ -43,28 +53,30 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 //Activating Csrf tokens
 //                .csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 //                .and()
-                .csrf().disable()
-                //Establishing an HTTPS request
+               .csrf().disable()
 
-                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+                //Establishing an HTTPS request
+//                .requiresChannel(channel -> channel.anyRequest().requiresSecure())
+
                 .authorizeRequests()
                 .antMatchers("/PandG").hasRole(ADMINS.name())
                 .anyRequest()
                 .authenticated()
                 .and()
-                .formLogin()
-                .loginPage("/login").permitAll()
-                .defaultSuccessUrl("/homepage",true)
-                .and()
-                .logout()
-                  .logoutUrl("/logout")
-//                  .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
-                  .clearAuthentication(true)
-                  .invalidateHttpSession(true)
-                  .deleteCookies("JSESSIONID")
-                  .logoutSuccessUrl("/login")
+              .httpBasic()
+//                .formLogin()
+//                .loginPage("/login").permitAll()
+//                .defaultSuccessUrl("/homepage",true)
+//                .and()
+//                .logout()
+//                  .logoutUrl("/logout")
+////                  .logoutRequestMatcher(new AntPathRequestMatcher("/logout","GET"))
+//                  .clearAuthentication(true)
+//                  .invalidateHttpSession(true)
+//                  .deleteCookies("JSESSIONID")
+//                  .logoutSuccessUrl("/login")
         ;
-//        http.addFilterAfter(new CsrfLoggerFilter(), CsrfFilter.class);
+//       http.addFilterAfter(new CsrfLoggerFilter(), CsrfFilter.class);
     }
 
 //    @Override

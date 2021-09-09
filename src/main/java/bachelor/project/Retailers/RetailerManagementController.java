@@ -23,22 +23,34 @@ public class RetailerManagementController {
             new Retailer("hypermarket","123",3,LocalDate.of(2021,3,3), "madinaty","Cairo")
     );
     private static final List<Transaction> transactions = Arrays.asList(
-        new Transaction("soudi",3, LocalDate.of(2021,2,20), new Product("Milk"))
+        new Transaction("soudi","3", LocalDate.of(2021,2,20), new Product("Milk"))
     );
     private PasswordEncoder passwordEncoder;
 
-    @GetMapping("/retailers")
-    @PreAuthorize("hasAuthority('retailer:read')")
-    public List<Retailer> getRetailers(){
 
-        return retailers;
-    }
 
     @PostMapping("/retailers")
     @PreAuthorize("hasAuthority('retailer:write')")
     public String addRetailer(@RequestBody Retailer retailer){
 //        retailers.add(new Retailer(retailer.getUsername(),retailer.getPassword(),retailer.getPasswordTrials(),retailer.getPassExpired(),retailer.getEmail()));
 //        TODO: check add function
+        return "Retailer is added";
+
+    }
+    @GetMapping("/retailers")
+    @PreAuthorize("hasAuthority('retailer:read')")
+    public List<Retailer> addRetailer(){
+//        retailers.add(new Retailer(retailer.getUsername(),retailer.getPassword(),retailer.getPasswordTrials(),retailer.getPassExpired(),retailer.getEmail()));
+//        return "Retailer is added";
+
+            return retailers;
+        }
+
+
+
+    @PostMapping("/login")
+    public String login(@RequestBody Retailer retailer){
+
         return "Retailer is added";
 
     }
@@ -69,8 +81,5 @@ public class RetailerManagementController {
 //        return "Retailer Password";
     }
 
-//    @GetMapping("/Transactions")
-//    public List<Transaction> getTransactions(){
-//        return transactions;
-//    }
+
 }
